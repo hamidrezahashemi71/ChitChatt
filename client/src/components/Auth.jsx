@@ -2,23 +2,36 @@ import React, { useState } from 'react'
 import Cookies from 'universal-cookie'
 import { axios } from 'axios'
 
+const initialState = {
+  fullName: '',
+  username: '',
+  password: '', 
+  confirmPassword: '',
+  phoneNumber: '',
+  avatarURL: ''
+}
 
 const Auth = () => {
 
+  const [formData, setFormData] = useState(initialState) 
   const [isSignup, setIsSignup] = useState(true) 
 
-  const handleChange = () => { }
-  
-  const switchMode = () => {
-    setIsSignup((prevIsSignUp) => !prevIsSignUp)
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(formData)
   }
+  
+  const switchMode = () =>  setIsSignup((prevIsSignUp) => !prevIsSignUp)
+  
 
   return (
     <div className="auth__form-container">
       <div className="auth__form-container_fields">
         <div className="auth__form-container_fields-content ">
           <p>{isSignup ? 'Sign Up' : 'Sign In'}</p>
-          <form onSubmit={() => {}}>
+          <form onSubmit={handleSubmit}>
             {isSignup && (
               <div className='auth__form-container_fields-content_input '>
                 <label htmlFor="fullName">Full Name</label>
@@ -32,7 +45,7 @@ const Auth = () => {
               </div>
             )}
             <div className='auth__form-container_fields-content_input '>
-              <label htmlFor="fullName">User Name</label>
+              <label htmlFor="username">User Name</label>
               <input
                   type="text"
                   name='username'
@@ -42,19 +55,31 @@ const Auth = () => {
                 />
             </div>
             {isSignup && (
-              <div className='auth__form-container_fields-content_input '>
-                <label htmlFor="avatarURL">Avatar URL</label>
+              <>
+               <div className='auth__form-container_fields-content_input '>
+                <label htmlFor="phoneNumber">Avatar URL</label>
                 <input
                   type="number"
-                  name='avatarURL'
+                  name='phoneNumber'
                   placeholder='Phone Number'
                   onChange={handleChange}
                   required
                 />
               </div>
+              <div className='auth__form-container_fields-content_input '>
+                <label htmlFor="avatarURL">Avatar URL</label>
+                <input
+                  type="text"
+                  name='avatarURL'
+                  placeholder='Avatar URL'
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              </>
             )}
              <div className='auth__form-container_fields-content_input '>
-              <label htmlFor="fullName">Password</label>
+              <label htmlFor="password">Password</label>
               <input
                   type="password"
                   name='password'
@@ -75,6 +100,9 @@ const Auth = () => {
                />
            </div>
             )}
+            <div className="auth__form-container_fields-content_button">
+              <button type='submit'>{isSignup? "Sign Up" : "Sign In" }</button>
+            </div>
           </form>
           <div className="auth__form-container_fields-accounts">
             <p> 
