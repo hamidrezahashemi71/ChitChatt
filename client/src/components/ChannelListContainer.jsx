@@ -25,7 +25,7 @@ const CompanyHeader = () => (
   </div>
 )
 
-const ChennelListContainer = () => {
+const ChennelListContainer = ({ isCreating, setIsCreating, setCreateType, setIsEditing, setToggleContainer }) => {
 
   const cookies = new Cookies()
 
@@ -47,38 +47,50 @@ const ChennelListContainer = () => {
       <div className="channel-list__list__wrapper">
         <CompanyHeader />
         <ChannelSearch />
-        <ChannelList
-          filters={{}}
-          channelRenderFilterFn={() => {}}
+        <ChannelList 
           List={(listProps) => (
-            <TeamChannelList
-              {...listProps}
-              type = 'team'
-            /> 
+              <TeamChannelList 
+                  {...listProps}
+                  type="team"
+                  isCreating={isCreating}
+                  setIsCreating={setIsCreating}
+                  setCreateType={setCreateType} 
+                  setIsEditing={setIsEditing}
+                  setToggleContainer={setToggleContainer}
+              />
           )}
           Preview={(previewProps) => (
-            <TeamChannelPreview
-              {...previewProps}
-              type = 'team'
-            />
+              <TeamChannelPreview 
+                  {...previewProps}
+                  setIsCreating={setIsCreating}
+                  setIsEditing={setIsEditing}
+                  setToggleContainer={setToggleContainer}
+                  type="team"
+              />
           )}
-        />
-        <ChannelList
-          filters={{}}
-          channelRenderFilterFn={() => {}}
+                />
+      <ChannelList 
           List={(listProps) => (
-            <TeamChannelList
-              {...listProps}
-              type = 'messaging'
-            />
+              <TeamChannelList 
+                  {...listProps}
+                  type="messaging"
+                  isCreating={isCreating}
+                  setIsCreating={setIsCreating}
+                  setCreateType={setCreateType} 
+                  setIsEditing={setIsEditing}
+                  setToggleContainer={setToggleContainer}
+              />
           )}
           Preview={(previewProps) => (
-            <TeamChannelPreview
-              {...previewProps}
-              type = 'messaging'
-            />
+              <TeamChannelPreview 
+                  {...previewProps}
+                  setIsCreating={setIsCreating}
+                  setIsEditing={setIsEditing}
+                  setToggleContainer={setToggleContainer}
+                  type="messaging"
+              />
           )}
-        />
+      />
       </div>
     </>
   )
