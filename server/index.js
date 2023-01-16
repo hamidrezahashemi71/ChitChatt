@@ -6,7 +6,7 @@ const authRoutes = require('./routes/auth.js')
 const app = express()
 const PORT = process.env.PORT || 5000
 
-require('dotenv').config // to call our env vars inside node app
+require('dotenv').config() // to call our env vars inside node app
 
 app.use(cors()) // middleware allow to cross origin requests
 app.use(express.json()) // middleware allow to pass json payloads from frontend to backend

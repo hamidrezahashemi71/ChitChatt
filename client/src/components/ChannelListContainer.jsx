@@ -4,16 +4,16 @@ import { ChannelSearch, TeamChannelList, TeamChannelPreview } from './'
 import Cookies from 'universal-cookie'
 import { BiChat, BiLogOut } from 'react-icons/bi'
 
-const Sidebar = () => (
+const Sidebar = ({ logout }) => (
   <div className='channel-list__sidebar'>
     <div className='channel-list__sidebar__icon1'>
       <div className='icon1__inner'>
         <BiChat size={30}/>
       </div>
     </div>
-    <div className='channel-list__sidebar__icon2'>
+    <div className='channel-list__sidebar__icon2' onClick={logout}>
       <div className='icon1__inner'>
-        <BiLogOut size={30}/>
+        <BiLogOut size={30} />
       </div>
     </div>
   </div>
@@ -26,9 +26,24 @@ const CompanyHeader = () => (
 )
 
 const ChennelListContainer = () => {
+
+  const cookies = new Cookies()
+
+  const logout = () => {
+    cookies.remove('token');
+    cookies.remove('userId');
+    cookies.remove('username');
+    cookies.remove('fullName');
+    cookies.remove('avatarURL');
+    cookies.remove('hashedPassword');
+    cookies.remove('phoneNumber');
+
+    window.location.reload()
+  }
+
   return (
     <>
-      <Sidebar />
+      <Sidebar logout={logout} />
       <div className="channel-list__list__wrapper">
         <CompanyHeader />
         <ChannelSearch />

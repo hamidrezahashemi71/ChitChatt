@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Cookies from 'universal-cookie'
-import { axios } from 'axios'
+import axios from 'axios'
 
 const initialState = {
   fullName: '',
@@ -15,16 +15,31 @@ const Auth = () => {
 
   const [formData, setFormData] = useState(initialState) 
   const [isSignup, setIsSignup] = useState(true) 
+  const cookies = new Cookies()
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
-    console.log(formData)
+    const { fullName, username, password, phoneNumber, avatarURL } = formData
+    const { data: {token, userId, hashedPassword} } = await axios.post(`http://localhost:5000/auth/${isSignup ? 'signup' : 'login'}`, {
+      username, password, fullName, phoneNumber, avatarURL
+    })
+    cookies.set('token', token)
+    cookies.set('username', username)
+    cookies.set('fullName', fullName)
+    cookies.set('userId', userId)
+    
+    if (isSignup) {
+      cookies.set('phoneNumber', phoneNumber)
+      cookies.set('avatarURL', avatarURL)
+      cookies.set('hashedPassword', hashedPassword)
+    }
+
+    window.location.reload()
   }
   
   const switchMode = () =>  setIsSignup((prevIsSignUp) => !prevIsSignUp)
-  
 
   return (
     <div className="auth__form-container">
@@ -57,7 +72,7 @@ const Auth = () => {
             {isSignup && (
               <>
                <div className='auth__form-container_fields-content_input '>
-                <label htmlFor="phoneNumber">Avatar URL</label>
+                <label htmlFor="phoneNumber">Phone Number</label>
                 <input
                   type="number"
                   name='phoneNumber'
